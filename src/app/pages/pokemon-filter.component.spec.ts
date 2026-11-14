@@ -2,7 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of, throwError, Subject } from 'rxjs';
 import { PokemonFilterComponent } from './pokemon-filter.component';
-import { PokemonFilterService, TypeSummary, FilteredPokemon } from '../services/pokemon-filter.service';
+import {
+  PokemonFilterService,
+  TypeSummary,
+  FilteredPokemon,
+} from '../services/pokemon-filter.service';
 
 describe('PokemonFilterComponent', () => {
   let component: PokemonFilterComponent;
@@ -12,40 +16,44 @@ describe('PokemonFilterComponent', () => {
   const mockTypes: TypeSummary[] = [
     { name: 'electric', url: 'https://pokeapi.co/api/v2/type/13/' },
     { name: 'fire', url: 'https://pokeapi.co/api/v2/type/10/' },
-    { name: 'water', url: 'https://pokeapi.co/api/v2/type/11/' }
+    { name: 'water', url: 'https://pokeapi.co/api/v2/type/11/' },
   ];
 
   const mockElectricPokemon: FilteredPokemon[] = [
     {
       name: 'pikachu',
       url: 'https://pokeapi.co/api/v2/pokemon/25/',
-      artworkUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'
+      artworkUrl:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
     },
     {
       name: 'raichu',
       url: 'https://pokeapi.co/api/v2/pokemon/26/',
-      artworkUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/26.png'
-    }
+      artworkUrl:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/26.png',
+    },
   ];
 
   const mockFirePokemon: FilteredPokemon[] = [
     {
       name: 'charmander',
       url: 'https://pokeapi.co/api/v2/pokemon/4/',
-      artworkUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png'
-    }
+      artworkUrl:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png',
+    },
   ];
 
   beforeEach(async () => {
-    mockFilterService = jasmine.createSpyObj('PokemonFilterService', ['getTypes', 'getPokemonByType']);
+    mockFilterService = jasmine.createSpyObj('PokemonFilterService', [
+      'getTypes',
+      'getPokemonByType',
+    ]);
     mockFilterService.getTypes.and.returnValue(of(mockTypes));
     mockFilterService.getPokemonByType.and.returnValue(of(mockElectricPokemon));
 
     await TestBed.configureTestingModule({
       imports: [PokemonFilterComponent],
-      providers: [
-        { provide: PokemonFilterService, useValue: mockFilterService }
-      ]
+      providers: [{ provide: PokemonFilterService, useValue: mockFilterService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PokemonFilterComponent);
