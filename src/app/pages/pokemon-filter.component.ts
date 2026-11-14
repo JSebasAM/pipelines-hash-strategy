@@ -21,8 +21,12 @@ interface FilterViewState {
     </section>
 
     <!-- Lista de Filtros (Tipos) -->
-    <div class="filters" *ngIf="types$ | async as types" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; justify-content: center;">
-      <button 
+    <div
+      class="filters"
+      *ngIf="types$ | async as types"
+      style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; justify-content: center;"
+    >
+      <button
         *ngFor="let type of types"
         (click)="selectType(type.name)"
         [class.active]="selectedType === type.name"
@@ -34,14 +38,16 @@ interface FilterViewState {
 
     <!-- Resultados (Grilla de Pokémon) -->
     <ng-container *ngIf="pokemonState$ | async as state">
-      <p class="status" *ngIf="state.loading" style="text-align: center;">Cargando Pokémon del tipo {{ selectedType }}...</p>
+      <p class="status" *ngIf="state.loading" style="text-align: center;">
+        Cargando Pokémon del tipo {{ selectedType }}...
+      </p>
       <p class="error" *ngIf="state.error">{{ state.error }}</p>
-      
+
       <div class="pokemon-grid" *ngIf="state.data && !state.loading">
         <article class="pokemon-card" *ngFor="let pokemon of state.data">
-          <img 
-            [src]="pokemon.artworkUrl" 
-            [alt]="pokemon.name" 
+          <img
+            [src]="pokemon.artworkUrl"
+            [alt]="pokemon.name"
             style="width: 100%; height: auto; max-width: 150px; display: block; margin: 0 auto;"
             loading="lazy"
           />
@@ -50,11 +56,11 @@ interface FilterViewState {
         </article>
       </div>
     </ng-container>
-  `
+  `,
 })
 export class PokemonFilterComponent {
   private readonly filterService = inject(PokemonFilterService);
-  
+
   // Empezamos con un tipo por defecto para que la pantalla no aparezca vacía
   selectedType = 'electric';
   private readonly typeSubject = new BehaviorSubject<string>(this.selectedType);
@@ -62,14 +68,16 @@ export class PokemonFilterComponent {
   // 1. Observable que carga los botones de los tipos
   readonly types$ = this.filterService.getTypes();
 
-  // 2. Observable reactivo: Cada vez que 'typeSubject' emite un nuevo valor (se hace clic), 
+  // 2. Observable reactivo: Cada vez que 'typeSubject' emite un nuevo valor (se hace clic),
   // cancela la petición anterior y hace una nueva con el tipo seleccionado (switchMap).
   readonly pokemonState$: Observable<FilterViewState> = this.typeSubject.pipe(
-    switchMap(type => this.filterService.getPokemonByType(type).pipe(
-      map(data => ({ loading: false, data, error: '' })),
-      startWith({ loading: true, data: null, error: '' }),
-      catchError(() => of({ loading: false, data: null, error: 'No se pudo cargar la lista.' }))
-    ))
+    switchMap((type) =>
+      this.filterService.getPokemonByType(type).pipe(
+        map((data) => ({ loading: false, data, error: '' })),
+        startWith({ loading: true, data: null, error: '' }),
+        catchError(() => of({ loading: false, data: null, error: 'No se pudo cargar la lista.' })),
+      ),
+    ),
   );
 
   // Método que se llama al hacer clic en un botón de tipo

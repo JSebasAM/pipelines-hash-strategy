@@ -11,8 +11,8 @@ describe('PokemonFilterService', () => {
     results: [
       { name: 'normal', url: 'https://pokeapi.co/api/v2/type/1/' },
       { name: 'fighting', url: 'https://pokeapi.co/api/v2/type/2/' },
-      { name: 'electric', url: 'https://pokeapi.co/api/v2/type/13/' }
-    ]
+      { name: 'electric', url: 'https://pokeapi.co/api/v2/type/13/' },
+    ],
   };
 
   const mockTypeDetailResponse = {
@@ -21,27 +21,23 @@ describe('PokemonFilterService', () => {
       {
         pokemon: {
           name: 'pikachu',
-          url: 'https://pokeapi.co/api/v2/pokemon/25/'
+          url: 'https://pokeapi.co/api/v2/pokemon/25/',
         },
-        slot: 1
+        slot: 1,
       },
       {
         pokemon: {
           name: 'raichu',
-          url: 'https://pokeapi.co/api/v2/pokemon/26'
+          url: 'https://pokeapi.co/api/v2/pokemon/26',
         },
-        slot: 1
-      }
-    ]
+        slot: 1,
+      },
+    ],
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        PokemonFilterService,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [PokemonFilterService, provideHttpClient(), provideHttpClientTesting()],
     });
 
     service = TestBed.inject(PokemonFilterService);
@@ -60,7 +56,7 @@ describe('PokemonFilterService', () => {
     it('should fetch the list of 18 main Pokemon types and map results', () => {
       let result: TypeSummary[] | undefined;
 
-      service.getTypes().subscribe(types => {
+      service.getTypes().subscribe((types) => {
         result = types;
       });
 
@@ -76,7 +72,7 @@ describe('PokemonFilterService', () => {
     it('should return empty array if results is empty', () => {
       let result: TypeSummary[] | undefined;
 
-      service.getTypes().subscribe(types => {
+      service.getTypes().subscribe((types) => {
         result = types;
       });
 
@@ -91,7 +87,7 @@ describe('PokemonFilterService', () => {
     it('should fetch Pokemon of a specific type and map them with artwork URLs', () => {
       let result: FilteredPokemon[] | undefined;
 
-      service.getPokemonByType('electric').subscribe(pokemon => {
+      service.getPokemonByType('electric').subscribe((pokemon) => {
         result = pokemon;
       });
 
@@ -105,19 +101,21 @@ describe('PokemonFilterService', () => {
       expect(result?.[0]).toEqual({
         name: 'pikachu',
         url: 'https://pokeapi.co/api/v2/pokemon/25/',
-        artworkUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'
+        artworkUrl:
+          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
       });
       expect(result?.[1]).toEqual({
         name: 'raichu',
         url: 'https://pokeapi.co/api/v2/pokemon/26',
-        artworkUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/26.png'
+        artworkUrl:
+          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/26.png',
       });
     });
 
     it('should handle empty pokemon list correctly', () => {
       let result: FilteredPokemon[] | undefined;
 
-      service.getPokemonByType('unknown').subscribe(pokemon => {
+      service.getPokemonByType('unknown').subscribe((pokemon) => {
         result = pokemon;
       });
 

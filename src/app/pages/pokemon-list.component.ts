@@ -24,7 +24,14 @@ interface PokemonViewState {
       <p class="error" *ngIf="state.error">{{ state.error }}</p>
       <div class="pokemon-grid" *ngIf="state.data">
         <article class="pokemon-card" *ngFor="let pokemon of state.data.results; let index = index">
-          <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + (index + 1) + '.png'" [alt]="pokemon.name" />
+          <img
+            [src]="
+              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
+              (index + 1) +
+              '.png'
+            "
+            [alt]="pokemon.name"
+          />
           <h2>{{ pokemon.name | titlecase }}</h2>
           <a [href]="pokemon.url" target="_blank" rel="noreferrer">Ver detalle ↗</a>
         </article>
