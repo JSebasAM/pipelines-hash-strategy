@@ -27,7 +27,11 @@ interface AnimeViewState {
       <div class="pokemon-grid" *ngIf="state.data">
         <article class="pokemon-card anime-card" *ngFor="let anime of state.data.data">
           <img
-            [src]="anime.attributes.posterImage?.medium || anime.attributes.posterImage?.small || 'assets/placeholder.png'"
+            [src]="
+              anime.attributes.posterImage?.medium ||
+              anime.attributes.posterImage?.small ||
+              'assets/placeholder.png'
+            "
             [alt]="anime.attributes.canonicalTitle"
             loading="lazy"
           />
@@ -43,27 +47,29 @@ interface AnimeViewState {
       </div>
     </ng-container>
   `,
-  styles: [`
-    .anime-card img {
-      width: 100%;
-      max-width: 160px;
-      height: 230px;
-      object-fit: cover;
-      border-radius: 0.5rem;
-      image-rendering: auto;
-      margin: 0 auto;
-      display: block;
-    }
-    .anime-card h2 {
-      font-size: 1.05rem;
-      margin: 0.75rem 0 0.5rem;
-      min-height: 2.8rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-  `]
+  styles: [
+    `
+      .anime-card img {
+        width: 100%;
+        max-width: 160px;
+        height: 230px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        image-rendering: auto;
+        margin: 0 auto;
+        display: block;
+      }
+      .anime-card h2 {
+        font-size: 1.05rem;
+        margin: 0.75rem 0 0.5rem;
+        min-height: 2.8rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    `,
+  ],
 })
 export class AnimeListComponent {
   private readonly animeService = inject(AnimeService);
@@ -71,6 +77,8 @@ export class AnimeListComponent {
   readonly anime$: Observable<AnimeViewState> = this.animeService.getAnime().pipe(
     map((data) => ({ loading: false, data, error: '' })),
     startWith({ loading: true, data: null, error: '' }),
-    catchError(() => of({ loading: false, data: null, error: 'No se pudo cargar la lista de anime.' })),
+    catchError(() =>
+      of({ loading: false, data: null, error: 'No se pudo cargar la lista de anime.' }),
+    ),
   );
 }

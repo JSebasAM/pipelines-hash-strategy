@@ -12,8 +12,16 @@ import { RouterLink } from '@angular/router';
       <a class="button" routerLink="/pokemon">Ver Pokédex</a>
     </section>
     <section class="feature-grid">
-      <article><span>01</span><h2>Tres vistas</h2><p>Inicio, Pokémon y Proyecto se navegan con URLs como <code>#/pokemon</code>.</p></article>
-      <article><span>02</span><h2>API real</h2><p>La lista de Pokémon se carga desde PokéAPI usando HttpClient.</p></article>
+      <article>
+        <span>01</span>
+        <h2>Tres vistas</h2>
+        <p>Inicio, Pokémon y Proyecto se navegan con URLs como <code>#/pokemon</code>.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h2>API real</h2>
+        <p>La lista de Pokémon se carga desde PokéAPI usando HttpClient.</p>
+      </article>
     </section>
   `,
 })
